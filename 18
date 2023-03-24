@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for(int j=low; j<high; j++) {
+        if(arr[j] <= pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+
+    swap(&arr[i+1], &arr[high]);
+    return i+1;
+}
+
+int kthSmallest(int arr[], int low, int high, int k) {
+    if(k > 0 && k <= high - low + 1) {
+        int pivotIndex = partition(arr, low, high);
+
+        if(pivotIndex - low == k - 1) {
+            return arr[pivotIndex];
+        }
+        else if(pivotIndex - low > k - 1) {
+            return kthSmallest(arr, low, pivotIndex-1, k);
+        }
+        else {
+            return kthSmallest(arr, pivotIndex+1, high, k-(pivotIndex-low+1));
+        }
+    }
+    return -1; // if k is out of range
+}
+
+int main() {
+    int n, k;
+    printf("Enter the size of the array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter %d elements of the array: ", n);
+    for(int i=0; i<n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter the value of k: ");
+    scanf("%d", &k);
+
+    int kth = kthSmallest(arr, 0, n-1, k);
+    printf("The %dth smallest element in the array is: %d", k, kth);
+
+    return 0;
+}
