@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+void sort(int *ptr, int n); // function declaration
+
+int main() {
+    int n, i;
+    int arr[100];
+    int *ptr;
+
+    printf("Input no. of elements in array: ");
+    scanf("%d", &n);
+
+    printf("Input %d numbers: ", n);
+    for(i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    ptr = arr;  // pointer to arr[0]
+
+    sort(ptr, n);  // call the sort function
+
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++) {
+        printf("%d ", *(ptr + i));
+    }
+
+    return 0;
+}
+
+void sort(int *ptr, int n) {
+    int i, j, temp;
+
+    for(i = 0; i < n - 1; i++) {
+        for(j = i + 1; j < n; j++) {
+            if(*(ptr + i) > *(ptr + j)) {
+                temp = *(ptr + i);
+                *(ptr + i) = *(ptr + j);
+                *(ptr + j) = temp;
+            }
+        }
+    }
+}
